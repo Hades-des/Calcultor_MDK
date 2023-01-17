@@ -23,7 +23,11 @@ public class MainActivity extends AppCompatActivity {
     String lastOperation = "="; // последняя операция (строка)
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { 
+        /*Метод onCreate() вызывается при создании или перезапуска активности.
+        Система может запускать и останавливать текущие окна в зависимости от происходящих событий. 
+        Внутри данного метода настраивают статический интерфейс активности.
+        */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main);
@@ -42,20 +46,32 @@ public class MainActivity extends AppCompatActivity {
     // сохранение состояния
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        /*
+        Когда система завершает активность в принудительном порядке,
+        чтобы освободить ресурсы для других приложений, пользователь может снова вызвать эту активность с сохранённым предыдущим состоянием. 
+        Чтобы зафиксировать состояние активности перед её уничтожением, в классе активности необходимо реализовать метод onSaveinstancestate().
+        */
         outState.putString("OPERATION", lastOperation);
         if(operand!=null)
             outState.putDouble("OPERAND", operand);
         super.onSaveInstanceState(outState);
     }
+    
     // получение ранее сохраненного состояния
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        /*
+        У метода onRestoreInstanceState() есть такой же параметр Bundle, как у onCreate(),
+        и вы можете восстанавливать сохранённые значения из метода onSaveInstanceState(). 
+        Во многих случаях это пример личных предпочтений, какой из двух методов использовать для восстановления данных.
+        */
         super.onRestoreInstanceState(savedInstanceState);
         lastOperation = savedInstanceState.getString("OPERATION");
         operand= savedInstanceState.getDouble("OPERAND");
         resultField.setText(operand.toString());
         operationField.setText(lastOperation);
     }
+    
     // обработка нажатия на числовую кнопку
     public void onNumberClick(View view){
 
@@ -70,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
          в котором добавляем введенную цифру или знак запятой к тексту в поле numberField:
          */
     }
+    
     // обработка нажатия на кнопку операции
     public void onOperationClick(View view){
 
@@ -87,11 +104,24 @@ public class MainActivity extends AppCompatActivity {
         }
         lastOperation = op;
         operationField.setText(lastOperation);
+        /*
+        Здесь получаем ранее введенное число и введенную операцию и передаем их в метод performOperation(). 
+        Так как в метод передается не просто строка, а число Double, то нам надо преобразовать строку в чсло. 
+        И поскольку теоретически могут быть введены нечисловые символы, то для отлова исключения, 
+        которое может возникнуть при преобразовании используется конструкция try...catch.
+
+        Кроме того, так как разделителем целой и дробной части в Double в java является точка, 
+        то нам надо заменить запятую на точку, так как предполагается, что мы используем в качестве разделителя запятую.
+        */
     }
 
     private void performOperation(Double number, String operation){
-
-        // если операнд ранее не был установлен (при вводе самой первой операции)
+        
+        /*
+        А методе performOperation() выполняем собственно операцию.
+        При вводе первой операции, когда операнд еще не установлен, мы просто устанавливаем операнд:
+        (если операнд ранее не был установлен (при вводе самой первой операции))
+        */
         if(operand ==null){
             operand = number;
         }
@@ -99,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             if(lastOperation.equals("=")){
                 lastOperation = operation;
             }
-            switch(lastOperation){
+            switch(lastOperation){ //через switch задаем нужные операции
                 case "=":
                     operand =number;
                     break;
