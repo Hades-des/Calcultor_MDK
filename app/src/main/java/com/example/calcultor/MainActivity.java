@@ -2,7 +2,7 @@ package com.example.calcultor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
+import android.os.Bundle; // Подключаем все компоненты для работы над ними
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,8 +13,7 @@ public class MainActivity extends AppCompatActivity {
     TextView resultField; // текстовое поле для вывода результата
     EditText numberField;   // поле для ввода числа
     TextView operationField;    // текстовое поле для вывода знака операции
-    Double operand = null;  // операнд операции (тип данных по типу float)
-
+    Double operand = null;  // операнд операции (тип данных по типу float, но 64 разрядности )
     /*
     операнд - аргумент операции; данные в которые обрабатываются командой.
     Например: 3 + 6 = 9, где '+' - оператор сложения, а 3 и 6 - операнды
@@ -152,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-        resultField.setText(operand.toString().replace('.', ','));
+        resultField.setText(operand.toString().replace('.', ',')); // заменяем точку на запятую
         numberField.setText("");
     }
 
